@@ -1,46 +1,71 @@
-# Getting Started with Create React App
+# VoiceChat Trainer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+VoiceChat Trainer - это интерактивное веб-приложение, разработанное для улучшения навыков общения через симуляцию диалогов с использованием искусственного интеллекта и технологии распознавания речи.
 
-## Available Scripts
+## Особенности
 
-In the project directory, you can run:
+- Симуляция реальных диалогов в различных сценариях (например, в банке, магазине, на собеседовании)
+- Использование ChatGPT для генерации ответов и вариантов реплик
+- Голосовой ввод для более естественного взаимодействия
+- Оценка ответов пользователя на основе схожести с предложенными вариантами
+- Система подсчета очков для отслеживания прогресса
 
-### `npm start`
+## Технологии
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React
+- TypeScript
+- Material-UI
+- Web Speech API
+- OpenAI GPT-3.5 API
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Установка
 
-### `npm test`
+1. Клонируйте репозиторий:
+   ```
+   git clone https://github.com/your-username/voicechat-trainer.git
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Перейдите в директорию проекта:
+   ```
+   cd voicechat-trainer
+   ```
 
-### `npm run build`
+3. Установите зависимости:
+   ```
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Создайте файл `.env` в корневой директории проекта и добавьте свой API ключ OpenAI:
+   ```
+   REACT_APP_OPENAI_API_KEY=your_api_key_here
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+5. Запустите приложение:
+   ```
+   npm start
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Использование
 
-### `npm run eject`
+1. Откройте приложение в браузере (по умолчанию http://localhost:3000).
+2. В настройках введите свой API ключ ChatGPT (если вы не добавили его в `.env` файл).
+3. Выберите место, тему и роль для диалога.
+4. Нажмите "Начать диалог" для начала симуляции.
+5. Отвечайте на реплики виртуального собеседника, используя голосовой ввод или текстовое поле.
+6. Следите за своим прогрессом и набранными очками.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Вклад в проект
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Мы приветствуем вклады в развитие VoiceChat Trainer! Если у вас есть идеи по улучшению приложения, пожалуйста, создайте issue или отправьте pull request.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Лицензия
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Этот проект лицензирован под MIT License - см. файл [LICENSE](LICENSE) для деталей.
 
-## Learn More
+## Контакты
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Если у вас возникли вопросы или предложения, пожалуйста, создайте issue в этом репозитории или свяжитесь с нами по email: example@voicechattrainer.com
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
+
+Спасибо за интерес к VoiceChat Trainer! Мы надеемся, что это приложение поможет вам улучшить навыки общения и уверенность в различных жизненных ситуациях.
