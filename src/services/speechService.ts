@@ -1,4 +1,5 @@
 // src/services/speechService.ts
+import { Message } from '../types/types';
 
 interface SpeechRecognitionEvent extends Event {
   results: SpeechRecognitionResultList;
@@ -54,6 +55,7 @@ declare global {
 }
 
 export function startSpeechRecognition(
+  onStart: () => void,
   onResult: (text: string) => void,
   onEnd: () => void
 ): SpeechRecognition | null {
@@ -82,6 +84,7 @@ export function startSpeechRecognition(
 
   recognition.onstart = () => {
     console.log('Speech recognition started');
+    onStart();
   };
 
   recognition.onresult = (event: SpeechRecognitionEvent) => {
@@ -112,6 +115,8 @@ export function startSpeechRecognition(
 
   return recognition;
 }
+
+
 
 
 
@@ -179,4 +184,25 @@ export function findMostSimilarResponse(userText: string, possibleResponses: str
   }
 
   return mostSimilarResponse;
+}
+
+export async function speakDialogue(messages: Message[]): Promise<void> {
+  if (!('speechSynthesis' in window)) {
+    alert('Ваш браузер не поддерживает синтез речи. Попробуйте Chrome.');
+    return;
+  }
+
+  const voices = window.speechSynthesis.getVoices();
+  const russianVoice = voices.find(voice => voice.lang === 'ru-RU') || voices[0];
+  
+  for (const message of messages) {
+    const utterance = new SpeechSynthesisUtterance(message.text);
+    utterance.voice = russianVoice;
+    utterance.pitch = message.isUser ? 1.2 : 0.8; // Разные тональности для пользователя и актера
+
+    await new Promise<void>((resolve) => {
+      utterance.onend = () => resolve();
+      window.speechSynthesis.speak(utterance);
+    });
+  }
 }

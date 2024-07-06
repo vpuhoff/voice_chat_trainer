@@ -3,10 +3,11 @@ import {
   Container, Typography, TextField, Button, Card, CardContent, CardActions, 
   List, ListItem, ListItemText, Paper, Grid, CircularProgress, Alert
 } from '@mui/material';
-import { Mic, Send, Stop } from '@mui/icons-material';
+import { Mic, Send, Stop, PlayArrow } from '@mui/icons-material';
 import { Settings, TokenStatus, Message, DialogueParams } from './types/types';
 import { checkChatGPTToken, generateResponse } from './services/chatGPTService';
-import { startSpeechRecognition, speakText, calculateSimilarity, findMostSimilarResponse } from './services/speechService';
+import { startSpeechRecognition, speakText, calculateSimilarity, findMostSimilarResponse, speakDialogue } from './services/speechService';
+
 
 const DialogueApp: React.FC = () => {
   const [settings, setSettings] = useState<Settings>({
@@ -38,11 +39,25 @@ const DialogueApp: React.FC = () => {
   const [score, setScore] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isPlayingDialogue, setIsPlayingDialogue] = useState(false);
+
 
   const handleSettingsChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSettings({ ...settings, [e.target.name]: e.target.value });
     setTokenStatus({ isChecking: false, isValid: false, message: '' });
   };
+
+  const handlePlayDialogue = async () => {
+    setIsPlayingDialogue(true);
+    try {
+      await speakDialogue(messages);
+    } catch (error) {
+      console.error('Error playing dialogue:', error);
+      setError('Произошла ошибка при воспроизведении диалога');
+    }
+    setIsPlayingDialogue(false);
+  };
+
 
   const handleDialogueParamsChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDialogueParams({ ...dialogueParams, [e.target.name]: e.target.value });
@@ -61,7 +76,11 @@ const DialogueApp: React.FC = () => {
   const handleCheckVoiceSupport = async () => {
     setVoiceStatus({ isChecking: true, isSupported: false, message: '' });
     try {
-      const recognition = startSpeechRecognition(() => {}, () => {});
+      const recognition = startSpeechRecognition(
+        () => {}, // onStart
+        () => {}, // onResult
+        () => {}  // onEnd
+      );
       if (recognition) {
         recognition.stop();
         setVoiceStatus({
@@ -80,6 +99,7 @@ const DialogueApp: React.FC = () => {
       });
     }
   };
+
 
   const startNewDialogue = async () => {
     if (!tokenStatus.isValid) {
@@ -137,6 +157,9 @@ const DialogueApp: React.FC = () => {
     setIsRecording(true);
     setError(null);
     const recognition = startSpeechRecognition(
+      () => {
+        console.log('Speech recognition started');
+      },
       (text) => {
         console.log('Speech recognition result callback', text);
         setUserResponse(text);
@@ -156,6 +179,7 @@ const DialogueApp: React.FC = () => {
       console.log('Speech recognition started successfully');
     }
   };
+
   
 
 
@@ -356,10 +380,21 @@ const DialogueApp: React.FC = () => {
               Отправить
             </Button>
           </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              startIcon={<PlayArrow />}
+              onClick={handlePlayDialogue}
+              disabled={isPlayingDialogue || messages.length === 0}
+            >
+              Воспроизвести диалог
+            </Button>
+          </Grid>
         </Grid>
       </CardContent>
     </Card>
   );
+  
 
 
   return (
