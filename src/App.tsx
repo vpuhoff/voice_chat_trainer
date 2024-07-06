@@ -126,30 +126,37 @@ const DialogueApp: React.FC = () => {
 
 
   const handleVoiceRecording = () => {
+    console.log('handleVoiceRecording called');
     if (isRecording) {
+      console.log('Stopping recording');
       setIsRecording(false);
       return;
     }
-
+  
+    console.log('Starting recording');
     setIsRecording(true);
     setError(null);
     const recognition = startSpeechRecognition(
       (text) => {
-        console.log('Recognized text:', text);
+        console.log('Speech recognition result callback', text);
         setUserResponse(text);
         setIsRecording(false);
       },
       () => {
-        console.log('Speech recognition ended');
+        console.log('Speech recognition end callback');
         setIsRecording(false);
       }
     );
-
+  
     if (!recognition) {
+      console.error('Failed to start speech recognition');
       setIsRecording(false);
       setError('Не удалось начать распознавание речи');
+    } else {
+      console.log('Speech recognition started successfully');
     }
   };
+  
 
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
