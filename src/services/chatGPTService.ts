@@ -57,7 +57,7 @@ async function makeRequest(token: string, messages: { role: string; content: str
     try {
       // Генерация ответа актера
       const actorMessages = [
-        { role: "system", content: `Вы играете роль ${params.actor} в ${params.place} и ведете диалог на тему ${params.topic}. Отвечайте кратко, в пределах 2-3 предложений.` },
+        { role: "system", content: `Вы играете роль ${params.actor} в ${params.place} и ведете диалог на тему ${params.topic}. Отвечайте кратко, в пределах 2-3 предложений. Отвечай на английском языке.` },
         ...messages.map(msg => ({ role: msg.isUser ? "user" : "assistant", content: msg.text })),
       ];
   
@@ -66,7 +66,7 @@ async function makeRequest(token: string, messages: { role: string; content: str
   
       // Генерация вариантов ответов пользователя
       const userResponseMessages = [
-        { role: "system", content: `Вы играете роль пользователя, который общается с ${params.actor} в ${params.place} на тему ${params.topic}. Предложите 4 варианта возможных ответов пользователя на последнее сообщение ${params.actor}. Каждый вариант должен начинаться с новой строки и символа "-".` },
+        { role: "system", content: `Вы играете роль пользователя, который общается с ${params.actor} в ${params.place} на тему ${params.topic}. Предложите 4 варианта возможных ответов пользователя на последнее сообщение ${params.actor}. Каждый вариант должен начинаться с новой строки и символа "-". Отвечай на английском языке.` },
         ...messages.map(msg => ({ role: msg.isUser ? "user" : "assistant", content: msg.text })),
         { role: "assistant", content: actorResponse },
         { role: "user", content: "Предложите варианты ответов пользователя." },

@@ -193,7 +193,7 @@ export async function speakDialogue(messages: Message[]): Promise<void> {
   }
 
   const voices = window.speechSynthesis.getVoices();
-  const russianVoice = voices.find(voice => voice.lang === 'ru-RU') || voices[0];
+  const russianVoice = voices.find(voice => voice.lang === 'en-EN') || voices[0];
   
   for (const message of messages) {
     const utterance = new SpeechSynthesisUtterance(message.text);
